@@ -1,7 +1,6 @@
 const chatDiv = document.getElementById('chat');
 const userInput = document.getElementById('userInput');
 
-// Send message when the button is clicked
 function sendMessage() {
   const userText = userInput.value.trim();
   if (!userText) return;
@@ -16,7 +15,8 @@ function sendMessage() {
   })
     .then(response => response.json())
     .then(data => {
-      const botReply = data.reply;
+      console.log("API Response Data:", data);  // Add this for debugging
+      const botReply = data.reply || "Sorry, I couldn't generate a response.";
       chatDiv.innerHTML += `<div class="msg bot">Bot: ${botReply}</div>`;
       chatDiv.scrollTop = chatDiv.scrollHeight;
     })
@@ -25,10 +25,9 @@ function sendMessage() {
     });
 }
 
-// Allow pressing Enter key to send message
 userInput.addEventListener('keydown', function(event) {
   if (event.key === 'Enter') {
-    event.preventDefault(); // Prevent form submission or new line
+    event.preventDefault();
     sendMessage();
   }
 });
