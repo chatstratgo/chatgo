@@ -14,17 +14,20 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4-turbo",  // Switched to GPT-4-turbo
         messages: [{ role: "user", content: userMessage }]
       })
     });
 
     const data = await response.json();
 
-    // Instead of just bot reply, return the entire data object
+    const botReply = data.choices && data.choices.length > 0
+      ? data.choices[0].message.content
+      : `Error: ${JSON.stringify(data)}`;
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ reply: JSON.stringify(data, null, 2) })
+      body: JSON.stringify({ reply: botReply })
     };
 
   } catch (error) {
