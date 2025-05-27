@@ -21,22 +21,10 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
-    // Check for error in API response
-    if (data.error) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ reply: `Error: ${data.error.message}` })
-      };
-    }
-
-    // Check if choices exist and contain a message
-    const botReply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content
-      ? data.choices[0].message.content
-      : "I'm sorry, I couldn't generate a response for that. Could you try rephrasing?";
-
+    // Return full API response for debugging
     return {
       statusCode: 200,
-      body: JSON.stringify({ reply: botReply })
+      body: JSON.stringify({ reply: JSON.stringify(data, null, 2) })
     };
 
   } catch (error) {
