@@ -1,4 +1,3 @@
-
 const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
@@ -21,8 +20,13 @@ exports.handler = async (event) => {
 
   const data = await response.json();
 
+  // Check if the response has choices and the message content
+  const botReply = data.choices && data.choices.length > 0
+    ? data.choices[0].message.content
+    : "I'm not sure how to respond.";
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ reply: data.choices[0].message.content })
+    body: JSON.stringify({ reply: botReply })
   };
 };
