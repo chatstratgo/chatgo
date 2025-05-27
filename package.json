@@ -1,0 +1,8 @@
+{
+  "name": "chatgpt-chatbot",
+  "version": "1.0.0",
+  "description": "Simple GPT Chatbot with Netlify Functions",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
