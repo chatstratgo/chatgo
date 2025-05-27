@@ -1,23 +1,34 @@
-
 const chatDiv = document.getElementById('chat');
+const userInput = document.getElementById('userInput');
 
-async function sendMessage() {
-  const input = document.getElementById('userInput');
-  const userText = input.value.trim();
+// Send message when the button is clicked
+function sendMessage() {
+  const userText = userInput.value.trim();
   if (!userText) return;
 
   chatDiv.innerHTML += `<div class="msg user">You: ${userText}</div>`;
-  input.value = '';
+  userInput.value = '';
 
-  const response = await fetch('/.netlify/functions/chatgpt', {
+  fetch('/.netlify/functions/chatgpt', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: userText })
-  });
-
-  const data = await response.json();
-  const botReply = data.reply;
-
-  chatDiv.innerHTML += `<div class="msg bot">Bot: ${botReply}</div>`;
-  chatDiv.scrollTop = chatDiv.scrollHeight;
+  })
+    .then(response => response.json())
+    .then(data => {
+      const botReply = data.reply;
+      chatDiv.innerHTML += `<div class="msg bot">Bot: ${botReply}</div>`;
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    })
+    .catch(error => {
+      chatDiv.innerHTML += `<div class="msg bot">Bot: Error - ${error.message}</div>`;
+    });
 }
+
+// Allow pressing Enter key to send message
+userInput.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // Prevent form submission or new line
+    sendMessage();
+  }
+});
