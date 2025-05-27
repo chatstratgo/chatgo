@@ -14,17 +14,25 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-4-turbo",  // Switched to GPT-4-turbo
+        model: "gpt-4-turbo",
         messages: [{ role: "user", content: userMessage }]
       })
     });
 
     const data = await response.json();
 
-   const botReply = data.choices && data.choices.length > 0
-  ? data.choices[0].message.content
-  : "I'm sorry, I couldn't generate a response for that. Could you try rephrasing?";
+    // Check for error in API response
+    if (data.error) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ reply: `Error: ${data.error.message}` })
+      };
+    }
 
+    // Check if choices exist and contain a message
+    const botReply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content
+      ? data.choices[0].message.content
+      : "I'm sorry, I couldn't generate a response for that. Could you try rephrasing?";
 
     return {
       statusCode: 200,
