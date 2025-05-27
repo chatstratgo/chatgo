@@ -21,9 +21,10 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
-    const botReply = data.choices && data.choices.length > 0
-      ? data.choices[0].message.content
-      : `Error: ${JSON.stringify(data)}`;
+   const botReply = data.choices && data.choices.length > 0
+  ? data.choices[0].message.content
+  : "I'm sorry, I couldn't generate a response for that. Could you try rephrasing?";
+
 
     return {
       statusCode: 200,
