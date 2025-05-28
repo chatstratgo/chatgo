@@ -21,9 +21,7 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
-    const botReply = data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content
-      ? data.choices[0].message.content
-      : "I'm sorry, I couldn't generate a response for that. Could you try rephrasing?";
+    const botReply = JSON.stringify(data, null, 2);
     
     // Return full API response for debugging
     return {
