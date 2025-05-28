@@ -8,7 +8,7 @@ function sendMessage() {
   chatDiv.innerHTML += `<div class="msg user">You: ${userText}</div>`;
   userInput.value = '';
 
-  fetch('https://mychatbot-iainjehoward.repl.co/chat', {
+  fetch('https://4f319a94-b601-4101-9491-688cb03a8cfd-00-pts3eyyfomjc.spock.replit.dev/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: userText })
