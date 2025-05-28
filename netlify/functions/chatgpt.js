@@ -21,7 +21,10 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
-    const botReply = JSON.stringify(data, null, 2);
+    const botReply = data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content
+  ? data.choices[0].message.content
+  : `Fallback triggered. Full API response: ${JSON.stringify(data)}`;
+
     
     // Return full API response for debugging
     return {
