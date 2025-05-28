@@ -8,7 +8,7 @@ function sendMessage() {
   chatDiv.innerHTML += `<div class="msg user">You: ${userText}</div>`;
   userInput.value = '';
 
-  fetch('/.netlify/functions/chatgpt', {
+  fetch('https://mychatbot-iainjehoward.repl.co/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: userText })
